@@ -1,7 +1,6 @@
 #include "neuron.h"
 
-Neuron::Neuron(int layer_no, int no_inputs){
-    layer = layer_no;
+Neuron::Neuron(int no_inputs){
     // Initialisation
     for(int i = 0; i < no_inputs; i++){
         float random_weight = ((float) rand() / RAND_MAX) * 2.0f - 1.0f;
@@ -23,4 +22,8 @@ float Neuron::calculate_neuron_output(){
     }
 
     return sum;
+}
+
+void Neuron::calculate_signal_error(){
+
 }

@@ -2,14 +2,18 @@
 
 class Neuron{
     public:
-        Neuron(int layer_no, int no_inputs);
+        Neuron(int no_inputs, bool _last_layer);
 
         float leaky_relu_alpha = 0.1;
+        float learning_rate = 0.001;
+        float signal_error;
 
-        int layer;
+        bool last_layer;
         float bias;
         std::vector<float> weights;
         std::vector<float> inputs;
 
         float calculate_neuron_output();
+
+        void calculate_signal_error();
 };

@@ -1,24 +1,24 @@
 #include "neuron.h"
 
-Neuron::Neuron(int no_inputs){
+Neuron::Neuron(int no_inputs, bool last_layer){
     // Initialisation
     for(int i = 0; i < no_inputs; i++){
         float random_weight = ((float) rand() / RAND_MAX) * 2.0f - 1.0f;
-        weights.push_back(random_weight);
+        weights_.push_back(random_weight);
     }
-    bias = ((float) rand() / RAND_MAX) * 2.0f - 1.0f;
+    bias_ = ((float) rand() / RAND_MAX) * 2.0f - 1.0f;
 };
 
 float Neuron::calculate_neuron_output(){
     float sum = 0;
-    for(int i = 0; i < inputs.size(); i++){
-        sum += inputs[i] * weights[i];
+    for(int i = 0; i < inputs_.size(); i++){
+        sum += inputs_[i] * weights_[i];
     }
-    sum += bias;
+    sum += bias_;
 
     // Leaky Relu Activation
     if(sum < 0.0){
-        sum = sum * leaky_relu_alpha;
+        sum = sum * LEAKY_RELU_ALPHA;
     }
 
     return sum;

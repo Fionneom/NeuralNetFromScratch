@@ -5,12 +5,12 @@ class Network{
     public:
         Network(std::vector<int> network_structure, int no_inputs);
 
-        std::vector<Layer> layers;
-        int no_network_inputs;
+        std::vector<Layer> layers_;
+        int no_inputs_;
 
-        std::vector<float> network_output;
+        std::vector<float> network_output_;
 
-        float network_loss;
+        float network_loss_;
 
         void set_input(std::vector<float> network_input);
         std::vector<float> calculate_network_output();

@@ -10,5 +10,6 @@ class Layer{
         std::vector<double> outputs_;
 
         std::vector<double> calculate_layer_outputs();
+        void calculate_deltas(std::vector<double> target);
 
 };

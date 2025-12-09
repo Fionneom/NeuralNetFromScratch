@@ -7,14 +7,20 @@ class Neuron{
         static constexpr double LEAKY_RELU_ALPHA = 0.1;
         static constexpr double LEARNING_RATE = 0.001;
 
-        double signal_error;
+        double signal_error_;
 
         bool last_layer_;
         double bias_;
         std::vector<double> weights_;
         std::vector<double> inputs_;
+        double output_;
 
         double calculate_neuron_output();
 
-        void calculate_signal_error();
+        // For output layer
+        void calculate_signal_error(double target, int no_network_outputs);
+        // For hidden layers
+        void calculate_signal_error(double target, int no_network_outputs);
+        double get_azi();
+        
 };

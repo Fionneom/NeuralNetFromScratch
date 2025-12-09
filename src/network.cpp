@@ -6,11 +6,16 @@ Network::Network(std::vector<int> network_structure, int no_inputs){
     no_inputs_ = no_inputs;
 
     for(int i = 0; i < network_structure.size(); i++){
+        bool last_layer = false;
+        if(i == network_structure.size() - 1){
+            last_layer = true;
+        }
+
         if(i == 0){
-            layers_.push_back(Layer(network_structure[i], i, no_inputs));
+            layers_.push_back(Layer(network_structure[i], no_inputs, last_layer));
         }
         else{
-            layers_.push_back(Layer(network_structure[i], i, network_structure[i - 1]));
+            layers_.push_back(Layer(network_structure[i], network_structure[i - 1], last_layer));
         }
     }
 
@@ -62,4 +67,10 @@ double Network::calculate_loss(std::vector<double> target){
     network_loss_ = sum / network_output_.size();
 
     return network_loss_;
+}
+
+void Network::calculate_deltas(std::vector<double> target){
+    for(int i = layers_.size() - 1; i >= 0; i--){
+        layers_[i].calculate_deltas(target);
+    }
 }

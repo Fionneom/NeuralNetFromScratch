@@ -20,3 +20,9 @@ std::vector<double> Layer::calculate_layer_outputs(){
     }
     return outputs_;
 }
+
+void Layer::calculate_deltas(std::vector<double> target){
+    for(int i = 0; i < neurons_.size(); i++){
+        neurons_[i].calculate_signal_error(target[i], target.size());
+    }
+}

@@ -21,9 +21,27 @@ double Neuron::calculate_neuron_output(){
         sum = sum * LEAKY_RELU_ALPHA;
     }
 
+    output_ = sum;
     return sum;
 }
 
-void Neuron::calculate_signal_error(){
+void Neuron::calculate_signal_error(double target, int no_outputs){
+    // Delta = DL/dyi * a'(zi)
 
+    double azi = get_azi();
+    double DLdyi = (2.0 / no_outputs) * (output_ - target);
+
+    signal_error_ = DLdyi * azi;
+}
+
+double Neuron::get_azi(){
+    double azi;
+    if(output_ >= 0){
+        azi = 1.0;
+    }
+    else{
+        azi = LEAKY_RELU_ALPHA;
+    }
+
+    return azi;
 }

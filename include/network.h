@@ -15,4 +15,5 @@ class Network{
         void set_input(std::vector<double> network_input);
         std::vector<double> calculate_network_output();
         double calculate_loss(std::vector<double> target);
+        void calculate_deltas(std::vector<double> target);
 };

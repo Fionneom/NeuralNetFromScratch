@@ -8,11 +8,11 @@ class Network{
         std::vector<Layer> layers_;
         int no_inputs_;
 
-        std::vector<float> network_output_;
+        std::vector<double> network_output_;
 
-        float network_loss_;
+        double network_loss_;
 
-        void set_input(std::vector<float> network_input);
-        std::vector<float> calculate_network_output();
-        float calculate_loss(std::vector<float> target);
+        void set_input(std::vector<double> network_input);
+        std::vector<double> calculate_network_output();
+        double calculate_loss(std::vector<double> target);
 };

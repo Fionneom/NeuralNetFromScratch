@@ -8,13 +8,13 @@ Layer::Layer(int size, int no_inputs, bool last_layer){
     }
 }
 
-std::vector<float> Layer::calculate_layer_outputs(){
+std::vector<double> Layer::calculate_layer_outputs(){
     outputs_.clear();
     
     int c = 0;
     for(auto n : neurons_){
         n.inputs_ = inputs_;
-        float output = n.calculate_neuron_output();
+        double output = n.calculate_neuron_output();
         outputs_.push_back(output);
         c++;
     }

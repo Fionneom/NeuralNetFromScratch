@@ -16,7 +16,7 @@ Network::Network(std::vector<int> network_structure, int no_inputs){
 
 }
 
-void Network::set_input(std::vector<float> network_input){
+void Network::set_input(std::vector<double> network_input){
     if(network_input.size() == no_inputs_){
         layers_[0].inputs_ = network_input;
     }
@@ -26,23 +26,23 @@ void Network::set_input(std::vector<float> network_input){
     }
 }
 
-std::vector<float> Network::calculate_network_output(){
+std::vector<double> Network::calculate_network_output(){
     for(int i = 0; i < layers_.size(); i++){
-        std::vector<float> out = layers_[i].calculate_layer_outputs();
+        std::vector<double> out = layers_[i].calculate_layer_outputs();
 
         if(i < layers_.size() - 1){
             layers_[i + 1].inputs_ = out;
         }
         else{
             //softmax
-            float denom = 0.0;
-            for(float v : out){
+            double denom = 0.0;
+            for(double v : out){
                 denom += std::exp(v);
             }
 
-            std::vector<float> softmax;
-            for(float v : out){
-                float probability = std::exp(v) / denom;
+            std::vector<double> softmax;
+            for(double v : out){
+                double probability = std::exp(v) / denom;
                 softmax.push_back(probability);
             }
             
@@ -52,11 +52,11 @@ std::vector<float> Network::calculate_network_output(){
     }
 }
 
-float Network::calculate_loss(std::vector<float> target){
+double Network::calculate_loss(std::vector<double> target){
 
-    float sum = 0;
+    double sum = 0;
     for(int i = 0; i < network_output_.size(); i++){
-        sum += static_cast<float>(std::pow(network_output_[i] - target[i], 2.0));
+        sum += std::pow(network_output_[i] - target[i], 2.0);
     }
 
     network_loss_ = sum / network_output_.size();

@@ -19,6 +19,11 @@ Network::Network(std::vector<int> network_structure, int no_inputs){
         }
     }
 
+    for(int i = 0; i < network_structure.size() - 1; i++){
+        for(int j = 0; j < network_structure[i]; j++){
+            layers_[i].neurons_[j].next_layer_ptr_ = &layers_[i + 1];
+        }
+    }
 }
 
 void Network::set_input(std::vector<double> network_input){

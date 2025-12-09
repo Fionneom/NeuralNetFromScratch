@@ -1,4 +1,5 @@
 #include "neuron.h"
+#include "layer.h"
 
 Neuron::Neuron(int no_inputs, bool last_layer){
     // Initialisation
@@ -32,6 +33,18 @@ void Neuron::calculate_signal_error(double target, int no_outputs){
     double DLdyi = (2.0 / no_outputs) * (output_ - target);
 
     signal_error_ = DLdyi * azi;
+}
+
+void Neuron::calculate_signal_error(int neuron_position){
+    double azi = get_azi();
+
+    double sum = 0.0;
+    for(int i = 0; i < next_layer_ptr_->neurons_.size(); i++){
+        auto& n = next_layer_ptr_->neurons_[i];
+        sum += n.signal_error_ * n.weights_[neuron_position];
+    }
+
+    signal_error_ = sum * azi;
 }
 
 double Neuron::get_azi(){

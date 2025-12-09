@@ -2,7 +2,7 @@
 #include <iostream>
 
 Layer::Layer(int size, int no_inputs, bool last_layer){
-
+    last_layer_ = last_layer;
     for(int i = 0; i < size; i++){
         neurons_.push_back(Neuron(no_inputs, last_layer));
     }
@@ -22,7 +22,15 @@ std::vector<double> Layer::calculate_layer_outputs(){
 }
 
 void Layer::calculate_deltas(std::vector<double> target){
-    for(int i = 0; i < neurons_.size(); i++){
-        neurons_[i].calculate_signal_error(target[i], target.size());
+    if(last_layer_){
+        for(int i = 0; i < neurons_.size(); i++){
+            neurons_[i].calculate_signal_error(target[i], static_cast<int>(target.size()));
+        }
+    }
+
+    else{
+        for(int i = 0; i < neurons_.size(); i++){
+            neurons_[i].calculate_signal_error(i);
+        }
     }
 }

@@ -28,6 +28,9 @@ Network::Network(std::vector<int> network_structure, int no_inputs){
 
 void Network::set_input(std::vector<double> network_input){
     if(network_input.size() == no_inputs_){
+        for(double& i : network_input){
+            i = i / 10.0;
+        }
         layers_[0].inputs_ = network_input;
     }
     else{
@@ -44,15 +47,19 @@ std::vector<double> Network::calculate_network_output(){
             layers_[i + 1].inputs_ = out;
         }
         else{
-            //softmax
+            double max_val = out[0];
+            for(double v : out){
+                if(v > max_val) max_val = v;
+            }
+            
             double denom = 0.0;
             for(double v : out){
-                denom += std::exp(v);
+                denom += std::exp(v - max_val);
             }
 
             std::vector<double> softmax;
             for(double v : out){
-                double probability = std::exp(v) / denom;
+                double probability = std::exp(v - max_val) / denom;
                 softmax.push_back(probability);
             }
             
@@ -64,18 +71,44 @@ std::vector<double> Network::calculate_network_output(){
 
 double Network::calculate_loss(std::vector<double> target){
 
-    double sum = 0;
-    for(int i = 0; i < network_output_.size(); i++){
-        sum += std::pow(network_output_[i] - target[i], 2.0);
+    int index;
+    for(int i = 0; i < target.size(); i++){
+        if(target[i] == 1.0){
+            index = i;
+            break;
+        }
     }
 
-    network_loss_ = sum / network_output_.size();
+    network_loss_ = -std::log(network_output_[index] + 1e-9);
 
     return network_loss_;
 }
 
 void Network::calculate_deltas(std::vector<double> target){
     for(int i = layers_.size() - 1; i >= 0; i--){
-        layers_[i].calculate_deltas(target);
+        layers_[i].calculate_deltas(target, network_output_);
     }
+}
+
+// Not used anymore
+void Network::update_weights(){
+    for(int i = 0; i < layers_.size(); i++){
+        layers_[i].update_weights();
+    }
+    // std::cout << layers_[0].neurons_[0].weights_[0] << std::endl;
+
+}
+
+void Network::accumulate_gradients(){
+    for(int i = 0; i < layers_.size(); i++){
+        layers_[i].accumulate_gradients();
+    }
+    // std::cout << layers_[0].neurons_[0].weights_[0] << std::endl;
+}
+
+void Network::apply_batch_update(int batch_size){
+    for(int i = 0; i < layers_.size(); i++){
+        layers_[i].apply_batch_update(batch_size);
+    }
+    // std::cout << layers_[0].neurons_[0].weights_[0] << std::endl;
 }

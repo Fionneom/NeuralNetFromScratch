@@ -16,4 +16,8 @@ class Network{
         std::vector<double> calculate_network_output();
         double calculate_loss(std::vector<double> target);
         void calculate_deltas(std::vector<double> target);
+        void update_weights();
+
+        void accumulate_gradients();
+        void apply_batch_update(int batch_size);
 };

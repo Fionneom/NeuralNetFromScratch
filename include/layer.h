@@ -14,6 +14,9 @@ class Layer{
         bool last_layer_;
 
         std::vector<double> calculate_layer_outputs();
-        void calculate_deltas(std::vector<double> target);
+        void calculate_deltas(std::vector<double> target, std::vector<double> network_output);
+        void update_weights();
 
+        void accumulate_gradients();
+        void apply_batch_update(int batch_size);
 };
